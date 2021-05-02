@@ -1,8 +1,10 @@
 # do particle detection
 
 # 1) get image data, change to 2D matrix and standardize between 0 and 1 
+library("raster")
+library("rgdal")
+library("imager")
 
-library(raster)
 image_org <- raster("c1_green_C0_T4.ome.tif")
 crop1 <- (image_org[600:725, 450:575, drop = F])
 crop1 <- as.matrix(crop1)
