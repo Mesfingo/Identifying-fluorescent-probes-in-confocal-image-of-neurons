@@ -91,18 +91,6 @@ conv_image <- function(image_obj = crop1,
   return(img)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 ########################### get image determinant of Hessian #############################
 
 
@@ -117,11 +105,6 @@ Hess_det <- function(image_obj) {
   det_hess <- with(hess, (xx*yy - xy^2))
   return(as.matrix(det_hess))
 }
-
-
-
-
-
 
 ############################## get pixel values for image ################################
 
@@ -138,11 +121,6 @@ pixel_values <- function(image_obj, xy_coord) {
   
   return(val)
 }
-
-
-
-
-
 
 ################################# get image local maxima sumary #################################
 
@@ -257,36 +235,5 @@ print_image <- function(image_obj,
   
 }
 
-print_image(image_obj = crop1_bx_Gu_LoG,
-            add_label = T,
-            file_name = "crop1_bx_Gu_LoG.q.999",
-            quant = .999)
 
-
-
-
-thresh <- quantile(as.vector(Dhess_mean), quant)
-lab <- threshold(c1_hdet, thresh) %>% label
-centers <- dplyr::group_by(lab_df, value) %>% dplyr::summarise(mx = mean(x),my = mean(y))
-
-
-
-image1_cimg <- img
-image1_cimg <- imsub(image1_cimg, x < 121, y < 121)
-image1_cimg <- imsub(image1_cimg, x > 5, y > 5)
-
-c1_hdet <- with(imhessian(image1_cimg), (xx*yy - xy^2))
-thresh <- quantile(as.vector(c1_hdet), quant)
-lab <- threshold(c1_hdet, thresh) 
-lab <- label(lab)
-lab_df <- as.data.frame(lab) %>% subset(value > 0)
-
-centers <- dplyr::group_by(lab_df, value)
-centers <- dplyr::summarise(centers, mx = mean(x), my = mean(y))
-
-tiff(fn, res = rsn)
-par(mar = c(0, 0, 0, 0))
-plot(img)
-with(centers, points(mx, my,col = "#ff4500", lwd = 1))
-dev.off()
 
